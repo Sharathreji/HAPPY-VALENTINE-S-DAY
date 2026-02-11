@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Happy Valentine's Day Kavya ❤️</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<title>Kavya ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ============ GLOBAL ============ */
 
 *{
 margin:0;
@@ -19,309 +19,434 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
+@media(pointer:fine){
+*{ cursor:none; }
+}
+
 body{
-height:100vh;
+background:black;
+color:white;
 overflow:hidden;
-background: linear-gradient(270deg,#ff4e8a,#ff9a9e,#fad0c4,#ffdde1);
-background-size:600% 600%;
-animation:gradientMove 12s ease infinite;
+}
+
+/* Galaxy background */
+
+.galaxy{
+position:fixed;
+width:200%;
+height:200%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+animation:galaxyMove 120s linear infinite;
+opacity:.35;
+}
+
+@keyframes galaxyMove{
+from{transform:translate(0,0);}
+to{transform:translate(-50%,-50%);}
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+transition:1s;
+padding:20px;
 }
-
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-/* Floating Hearts */
-
-.heart{
-position:absolute;
-color:#fff;
-font-size:20px;
-animation:floatUp linear infinite;
-opacity:.7;
-}
-
-@keyframes floatUp{
-from{
-transform:translateY(100vh);
-}
-to{
-transform:translateY(-10vh);
-}
-}
-
-/* Main Card */
 
 .card{
-width:90%;
-max-width:750px;
-padding:60px 40px;
+backdrop-filter:blur(25px);
+background:rgba(255,255,255,.05);
+padding:60px;
 border-radius:30px;
 text-align:center;
-
-background: rgba(255,255,255,0.15);
-backdrop-filter: blur(20px);
-border:1px solid rgba(255,255,255,0.3);
-
-box-shadow:0 25px 60px rgba(0,0,0,.2);
+box-shadow:0 0 80px rgba(255,0,120,.2);
+width:100%;
+max-width:600px;
 }
 
 h1{
 font-family:'Great Vibes',cursive;
-font-size:64px;
-color:white;
-margin-bottom:10px;
+font-size:72px;
 }
 
-.typewriter{
-color:white;
-font-size:22px;
-height:30px;
-margin-bottom:40px;
+.btn-container{
+position:relative;
+height:220px;
+margin-top:30px;
+width:100%;
+max-width:500px;
+margin-left:auto;
+margin-right:auto;
 }
 
 /* Buttons */
 
-.btn-container{
-display:flex;
-gap:30px;
-justify-content:center;
-}
-
 button{
-border:none;
 padding:16px 40px;
+border:none;
+border-radius:40px;
 font-size:20px;
-border-radius:50px;
-cursor:pointer;
-transition:.3s;
 font-weight:600;
 }
 
 .yes{
 background:linear-gradient(45deg,#ff2e63,#ff6a88);
 color:white;
-box-shadow:0 10px 25px rgba(255,50,120,.5);
 }
 
 .no{
+position:absolute;
+left:55%;
+top:100px;
 background:white;
 color:#ff2e63;
+
+transition:
+left .42s cubic-bezier(.17,.67,.34,1.25),
+top .42s cubic-bezier(.17,.67,.34,1.25);
+
+will-change:left, top;
 }
 
-button:hover{
-transform:scale(1.1);
-}
+/* Chat */
 
-/* Love Burst */
-
-.burst-heart{
+#chatBubble{
 position:absolute;
-font-size:24px;
-animation:burst 1s forwards;
+background:rgba(255,255,255,.12);
+padding:8px 16px;
+border-radius:20px;
+top:50px;
+left:55%;
+white-space:nowrap;
+font-size:14px;
 }
 
-@keyframes burst{
-to{
-transform:translate(var(--x),var(--y));
-opacity:0;
-}
-}
+/* Cursor hearts */
 
-/* Fireworks */
-
-.firework{
+.cursor-heart{
 position:absolute;
-width:6px;
-height:6px;
-border-radius:50%;
+pointer-events:none;
+animation:float .9s forwards;
+}
+
+@keyframes float{
+to{transform:translateY(-25px);opacity:0;}
+}
+
+/* Flash */
+
+.flash{
+position:fixed;
+inset:0;
 background:white;
-animation:fireworkAnim 1.2s forwards;
-}
-
-@keyframes fireworkAnim{
-to{
-transform:translate(var(--fx),var(--fy));
 opacity:0;
-}
+pointer-events:none;
+transition:.6s;
 }
 
-/* Final Message */
+/* Ring stage */
 
-.final{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:60px;
-color:white;
-font-family:'Great Vibes';
+.ring-stage{
 display:none;
-text-align:center;
-animation:fadeIn 2s;
+height:100vh;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+animation:fade 1.5s;
 }
 
-@keyframes fadeIn{
-from{opacity:0; transform:translate(-50%,-40%);}
-to{opacity:1; transform:translate(-50%,-50%);}
+.ring-box{
+width:160px;
+height:100px;
+background:#111;
+border-radius:12px;
+position:relative;
+}
+
+.lid{
+position:absolute;
+width:160px;
+height:50px;
+background:#222;
+top:0;
+border-radius:12px 12px 0 0;
+transform-origin:top;
+transition:.8s;
+}
+
+.ring{
+font-size:60px;
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+opacity:0;
+transition:1s;
+}
+
+.open .lid{
+transform:rotateX(140deg);
+}
+
+.open .ring{
+opacity:1;
+top:-40px;
+}
+
+/* Reveal */
+
+.reveal{
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+text-align:center;
+padding:20px;
+}
+
+.photo-frame{
+padding:20px;
+border-radius:30px;
+background:linear-gradient(45deg,#ff6a88,#ff99ac);
+box-shadow:0 0 100px hotpink;
+position:relative;
+}
+
+.photo-frame img{
+width:260px;
+max-width:80vw;
+border-radius:20px;
+}
+
+/* Orbit hearts */
+
+.orbit{
+position:absolute;
+font-size:18px;
+animation:orbit 6s linear infinite;
+}
+
+@keyframes orbit{
+from{transform:rotate(0deg) translateX(140px) rotate(0deg);}
+to{transform:rotate(360deg) translateX(140px) rotate(-360deg);}
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+/* Mobile adjustments */
+
+@media(max-width:600px){
+
+.card{
+padding:40px 20px;
+}
+
+h1{
+font-size:48px;
+}
+
+button{
+padding:14px 28px;
+font-size:18px;
+}
+
+.btn-container{
+height:200px;
+}
+
 }
 
 </style>
 </head>
-
 <body>
+
+<div class="galaxy"></div>
+<div class="flash" id="flash"></div>
+
+<section class="hero" id="hero">
 
 <div class="card">
 
-<h1>Happy Valentine's Day Kavya ❤️</h1>
-
-<div class="typewriter" id="text"></div>
-
-<h2 style="color:white;margin-bottom:30px;">
-Will You Be My Valentine?
-</h2>
+<h1>Kavya ❤️</h1>
+<h2>Will You Be Mine?</h2>
 
 <div class="btn-container">
+<div id="chatBubble">Don't click me 😠</div>
 <button class="yes" id="yesBtn">Yes ❤️</button>
 <button class="no" id="noBtn">No 💔</button>
 </div>
 
 </div>
+</section>
 
-<div class="final" id="finalMsg">
-She Said YES ❤️ <br>
-Best Day Ever 💘
+<section class="ring-stage" id="ringStage">
+<div class="ring-box" id="ringBox">
+<div class="lid"></div>
+<div class="ring">💍</div>
 </div>
+<h1 style="margin-top:30px;">Forever Starts Now</h1>
+</section>
+
+<section class="reveal" id="reveal">
+<h2>Out of 8 billion souls… you chose mine ❤️</h2>
+<br><br>
+<div class="photo-frame" id="photoFrame">
+<img src="pic.jpeg">
+</div>
+</section>
+
+<audio id="voice">
+<source src="voice.mp3">
+</audio>
+
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
 
 <script>
 
-/* Floating Hearts Generator */
+/* Music fade in */
+const music=document.getElementById("music");
 
-setInterval(()=>{
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤️";
-
-heart.style.left=Math.random()*100+"vw";
-heart.style.fontSize=(Math.random()*20+10)+"px";
-heart.style.animationDuration=(Math.random()*5+5)+"s";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>heart.remove(),10000);
-
-},300);
-
-
-/* Typewriter Text */
-
-const message="From the moment I met you, my world became brighter...";
-let i=0;
-
-function typing(){
-if(i<message.length){
-document.getElementById("text").innerHTML+=message.charAt(i);
-i++;
-setTimeout(typing,40);
+document.body.addEventListener("click",()=>{
+if(music){
+music.volume=0;
+music.play();
+let v=0;
+let fade=setInterval(()=>{
+if(v<0.4){ v+=0.02; music.volume=v; }
+else clearInterval(fade);
+},200);
 }
-}
+},{once:true});
 
-typing();
+/* Cursor hearts */
+document.addEventListener("mousemove",(e)=>{
+let h=document.createElement("div");
+h.className="cursor-heart";
+h.innerHTML="❤️";
+h.style.left=e.pageX+"px";
+h.style.top=e.pageY+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),900);
+});
 
+/* RANDOM SAFE DISTANCE ESCAPE */
 
-/* Button Logic */
-
-const yes=document.getElementById("yesBtn");
 const no=document.getElementById("noBtn");
+const chat=document.getElementById("chatBubble");
+const container=document.querySelector(".btn-container");
 
-let swapped=false;
+const angryMessages=[
+"Hey!! 😠",
+"Stop trying 😤",
+"You almost had me!",
+"No means no 😜",
+"Personal space please 😠",
+"Too slow 😂",
+"Nice try!",
+"You can't catch me 😏"
+];
 
-no.addEventListener("click",()=>{
+let msgIndex=0;
+const MIN_DISTANCE=140;
 
-if(!swapped){
-no.innerText="Yes ❤️";
-yes.innerText="No 💔";
-swapped=true;
-}else{
-no.innerText="No 💔";
-yes.innerText="Yes ❤️";
-swapped=false;
+function moveButton(){
+
+const rect=container.getBoundingClientRect();
+const btnRect=no.getBoundingClientRect();
+
+let newX,newY;
+let attempts=0;
+
+do{
+
+newX=Math.random()*(rect.width-btnRect.width-20)+10;
+newY=Math.random()*(rect.height-btnRect.height-20)+40;
+
+const dx=newX-(btnRect.left-rect.left);
+const dy=newY-(btnRect.top-rect.top);
+var distance=Math.sqrt(dx*dx+dy*dy);
+
+attempts++;
+
+}while(distance<MIN_DISTANCE && attempts<40);
+
+no.style.left=newX+"px";
+no.style.top=newY+"px";
+
+chat.style.left=newX+"px";
+chat.style.top=(newY-45)+"px";
+
+chat.innerText=angryMessages[msgIndex];
+msgIndex=(msgIndex+1)%angryMessages.length;
 }
 
+/* Desktop */
+container.addEventListener("mousemove",(e)=>{
+const btn=no.getBoundingClientRect();
+const dist=Math.hypot(
+e.clientX-(btn.left+btn.width/2),
+e.clientY-(btn.top+btn.height/2)
+);
+if(dist<160){ moveButton(); }
 });
 
-
-/* REAL YES CLICK */
-
-yes.addEventListener("click",()=>{
-
-document.querySelector(".card").style.display="none";
-document.getElementById("finalMsg").style.display="block";
-
-loveBurst();
-fireworks();
-
+/* Mobile */
+no.addEventListener("touchstart",(e)=>{
+e.preventDefault();
+moveButton();
 });
 
+/* YES CINEMA */
 
-/* Love Burst */
+document.getElementById("yesBtn").onclick=()=>{
 
-function loveBurst(){
+document.getElementById("voice").play();
 
-for(let i=0;i<80;i++){
+const flash=document.getElementById("flash");
+flash.style.opacity=.8;
+setTimeout(()=>flash.style.opacity=0,400);
 
-let heart=document.createElement("div");
-heart.className="burst-heart";
-heart.innerHTML="❤️";
+setTimeout(()=>{
+document.getElementById("hero").style.display="none";
+document.getElementById("ringStage").style.display="flex";
+},900);
 
-heart.style.left="50%";
-heart.style.top="50%";
+};
 
-let x=(Math.random()-0.5)*800+"px";
-let y=(Math.random()-0.5)*800+"px";
+/* Ring open */
 
-heart.style.setProperty('--x',x);
-heart.style.setProperty('--y',y);
+document.getElementById("ringBox").onclick=()=>{
+document.getElementById("ringBox").classList.add("open");
 
-document.body.appendChild(heart);
+setTimeout(()=>{
+document.getElementById("ringStage").style.display="none";
+document.getElementById("reveal").style.display="flex";
+orbitHearts();
+},1600);
+};
 
-setTimeout(()=>heart.remove(),1000);
+/* Orbit hearts */
+
+function orbitHearts(){
+const frame=document.getElementById("photoFrame");
+for(let i=0;i<6;i++){
+let h=document.createElement("div");
+h.className="orbit";
+h.innerHTML="❤️";
+h.style.animationDuration=(5+i)+"s";
+frame.appendChild(h);
 }
-
-}
-
-
-/* Fireworks */
-
-function fireworks(){
-
-for(let i=0;i<120;i++){
-
-let fw=document.createElement("div");
-fw.className="firework";
-
-fw.style.left="50%";
-fw.style.top="50%";
-
-let fx=(Math.random()-0.5)*1000+"px";
-let fy=(Math.random()-0.5)*1000+"px";
-
-fw.style.setProperty('--fx',fx);
-fw.style.setProperty('--fy',fy);
-
-document.body.appendChild(fw);
-
-setTimeout(()=>fw.remove(),1200);
-}
-
 }
 
 </script>
-
 </body>
 </html>
