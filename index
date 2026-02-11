@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Valentine's Day Kavya ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============ GLOBAL ============ */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background: linear-gradient(270deg,#ff4e8a,#ff9a9e,#fad0c4,#ffdde1);
+background-size:600% 600%;
+animation:gradientMove 12s ease infinite;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Floating Hearts */
+
+.heart{
+position:absolute;
+color:#fff;
+font-size:20px;
+animation:floatUp linear infinite;
+opacity:.7;
+}
+
+@keyframes floatUp{
+from{
+transform:translateY(100vh);
+}
+to{
+transform:translateY(-10vh);
+}
+}
+
+/* Main Card */
+
+.card{
+width:90%;
+max-width:750px;
+padding:60px 40px;
+border-radius:30px;
+text-align:center;
+
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(20px);
+border:1px solid rgba(255,255,255,0.3);
+
+box-shadow:0 25px 60px rgba(0,0,0,.2);
+}
+
+h1{
+font-family:'Great Vibes',cursive;
+font-size:64px;
+color:white;
+margin-bottom:10px;
+}
+
+.typewriter{
+color:white;
+font-size:22px;
+height:30px;
+margin-bottom:40px;
+}
+
+/* Buttons */
+
+.btn-container{
+display:flex;
+gap:30px;
+justify-content:center;
+}
+
+button{
+border:none;
+padding:16px 40px;
+font-size:20px;
+border-radius:50px;
+cursor:pointer;
+transition:.3s;
+font-weight:600;
+}
+
+.yes{
+background:linear-gradient(45deg,#ff2e63,#ff6a88);
+color:white;
+box-shadow:0 10px 25px rgba(255,50,120,.5);
+}
+
+.no{
+background:white;
+color:#ff2e63;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+/* Love Burst */
+
+.burst-heart{
+position:absolute;
+font-size:24px;
+animation:burst 1s forwards;
+}
+
+@keyframes burst{
+to{
+transform:translate(var(--x),var(--y));
+opacity:0;
+}
+}
+
+/* Fireworks */
+
+.firework{
+position:absolute;
+width:6px;
+height:6px;
+border-radius:50%;
+background:white;
+animation:fireworkAnim 1.2s forwards;
+}
+
+@keyframes fireworkAnim{
+to{
+transform:translate(var(--fx),var(--fy));
+opacity:0;
+}
+}
+
+/* Final Message */
+
+.final{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+color:white;
+font-family:'Great Vibes';
+display:none;
+text-align:center;
+animation:fadeIn 2s;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translate(-50%,-40%);}
+to{opacity:1; transform:translate(-50%,-50%);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Happy Valentine's Day Kavya ❤️</h1>
+
+<div class="typewriter" id="text"></div>
+
+<h2 style="color:white;margin-bottom:30px;">
+Will You Be My Valentine?
+</h2>
+
+<div class="btn-container">
+<button class="yes" id="yesBtn">Yes ❤️</button>
+<button class="no" id="noBtn">No 💔</button>
+</div>
+
+</div>
+
+<div class="final" id="finalMsg">
+She Said YES ❤️ <br>
+Best Day Ever 💘
+</div>
+
+<script>
+
+/* Floating Hearts Generator */
+
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+10)+"px";
+heart.style.animationDuration=(Math.random()*5+5)+"s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),10000);
+
+},300);
+
+
+/* Typewriter Text */
+
+const message="From the moment I met you, my world became brighter...";
+let i=0;
+
+function typing(){
+if(i<message.length){
+document.getElementById("text").innerHTML+=message.charAt(i);
+i++;
+setTimeout(typing,40);
+}
+}
+
+typing();
+
+
+/* Button Logic */
+
+const yes=document.getElementById("yesBtn");
+const no=document.getElementById("noBtn");
+
+let swapped=false;
+
+no.addEventListener("click",()=>{
+
+if(!swapped){
+no.innerText="Yes ❤️";
+yes.innerText="No 💔";
+swapped=true;
+}else{
+no.innerText="No 💔";
+yes.innerText="Yes ❤️";
+swapped=false;
+}
+
+});
+
+
+/* REAL YES CLICK */
+
+yes.addEventListener("click",()=>{
+
+document.querySelector(".card").style.display="none";
+document.getElementById("finalMsg").style.display="block";
+
+loveBurst();
+fireworks();
+
+});
+
+
+/* Love Burst */
+
+function loveBurst(){
+
+for(let i=0;i<80;i++){
+
+let heart=document.createElement("div");
+heart.className="burst-heart";
+heart.innerHTML="❤️";
+
+heart.style.left="50%";
+heart.style.top="50%";
+
+let x=(Math.random()-0.5)*800+"px";
+let y=(Math.random()-0.5)*800+"px";
+
+heart.style.setProperty('--x',x);
+heart.style.setProperty('--y',y);
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),1000);
+}
+
+}
+
+
+/* Fireworks */
+
+function fireworks(){
+
+for(let i=0;i<120;i++){
+
+let fw=document.createElement("div");
+fw.className="firework";
+
+fw.style.left="50%";
+fw.style.top="50%";
+
+let fx=(Math.random()-0.5)*1000+"px";
+let fy=(Math.random()-0.5)*1000+"px";
+
+fw.style.setProperty('--fx',fx);
+fw.style.setProperty('--fy',fy);
+
+document.body.appendChild(fw);
+
+setTimeout(()=>fw.remove(),1200);
+}
+
+}
+
+</script>
+
+</body>
+</html>
