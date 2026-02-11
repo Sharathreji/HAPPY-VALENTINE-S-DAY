@@ -2,209 +2,451 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Load Calculator For Achan</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Kavya ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  padding: 10px;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
-.container {
-  max-width: 1100px;
-  margin: auto;
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+@media(pointer:fine){
+*{ cursor:none; }
 }
-h2 {
-  text-align: center;
-  color: #2e7d32;
+
+body{
+background:black;
+color:white;
+overflow:hidden;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+
+/* Galaxy background */
+
+.galaxy{
+position:fixed;
+width:200%;
+height:200%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+animation:galaxyMove 120s linear infinite;
+opacity:.35;
 }
-th, td {
-  border: 1px solid #ccc;
-  padding: 6px;
-  text-align: center;
+
+@keyframes galaxyMove{
+from{transform:translate(0,0);}
+to{transform:translate(-50%,-50%);}
 }
-th {
-  background: #e8f5e9;
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:1s;
+padding:20px;
 }
-input {
-  width: 90%;
-  padding: 4px;
-  text-align: center;
+
+.card{
+backdrop-filter:blur(25px);
+background:rgba(255,255,255,.05);
+padding:60px;
+border-radius:30px;
+text-align:center;
+box-shadow:0 0 80px rgba(255,0,120,.2);
+width:100%;
+max-width:600px;
 }
-button {
-  margin: 8px 5px 0 0;
-  padding: 8px 14px;
-  background: #2e7d32;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+
+h1{
+font-family:'Great Vibes',cursive;
+font-size:72px;
 }
-button:hover {
-  background: #1b5e20;
+
+.btn-container{
+position:relative;
+height:220px;
+margin-top:30px;
+width:100%;
+max-width:500px;
+margin-left:auto;
+margin-right:auto;
 }
-.summary {
-  margin-top: 15px;
-  background: #f1f8e9;
-  padding: 10px;
-  border-radius: 8px;
+
+/* Buttons */
+
+button{
+padding:16px 40px;
+border:none;
+border-radius:40px;
+font-size:20px;
+font-weight:600;
 }
-.summary div {
-  margin: 5px 0;
-  font-weight: bold;
+
+.yes{
+background:linear-gradient(45deg,#ff2e63,#ff6a88);
+color:white;
 }
-@media print {
-  button { display: none; }
-  body { background: white; }
-  .container { box-shadow: none; }
+
+.no{
+position:absolute;
+left:55%;
+top:100px;
+background:white;
+color:#ff2e63;
+
+transition:
+left .42s cubic-bezier(.17,.67,.34,1.25),
+top .42s cubic-bezier(.17,.67,.34,1.25);
+
+will-change:left, top;
 }
+
+/* Chat */
+
+#chatBubble{
+position:absolute;
+background:rgba(255,255,255,.12);
+padding:8px 16px;
+border-radius:20px;
+top:50px;
+left:55%;
+white-space:nowrap;
+font-size:14px;
+}
+
+/* Cursor hearts */
+
+.cursor-heart{
+position:absolute;
+pointer-events:none;
+animation:float .9s forwards;
+}
+
+@keyframes float{
+to{transform:translateY(-25px);opacity:0;}
+}
+
+/* Flash */
+
+.flash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+pointer-events:none;
+transition:.6s;
+}
+
+/* Ring stage */
+
+.ring-stage{
+display:none;
+height:100vh;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+animation:fade 1.5s;
+}
+
+.ring-box{
+width:160px;
+height:100px;
+background:#111;
+border-radius:12px;
+position:relative;
+}
+
+.lid{
+position:absolute;
+width:160px;
+height:50px;
+background:#222;
+top:0;
+border-radius:12px 12px 0 0;
+transform-origin:top;
+transition:.8s;
+}
+
+.ring{
+font-size:60px;
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+opacity:0;
+transition:1s;
+}
+
+.open .lid{
+transform:rotateX(140deg);
+}
+
+.open .ring{
+opacity:1;
+top:-40px;
+}
+
+/* Reveal */
+
+.reveal{
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+text-align:center;
+padding:20px;
+}
+
+.photo-frame{
+padding:20px;
+border-radius:30px;
+background:linear-gradient(45deg,#ff6a88,#ff99ac);
+box-shadow:0 0 100px hotpink;
+position:relative;
+}
+
+.photo-frame img{
+width:260px;
+max-width:80vw;
+border-radius:20px;
+}
+
+/* Orbit hearts */
+
+.orbit{
+position:absolute;
+font-size:18px;
+animation:orbit 6s linear infinite;
+}
+
+@keyframes orbit{
+from{transform:rotate(0deg) translateX(140px) rotate(0deg);}
+to{transform:rotate(360deg) translateX(140px) rotate(-360deg);}
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+/* Mobile adjustments */
+
+@media(max-width:600px){
+
+.card{
+padding:40px 20px;
+}
+
+h1{
+font-size:48px;
+}
+
+button{
+padding:14px 28px;
+font-size:18px;
+}
+
+.btn-container{
+height:200px;
+}
+
+}
+
 </style>
 </head>
 <body>
 
-<div class="container">
-<h2>Load Calculator For Achan</h2>
-<p>Formula: (Vannam × Vannam × Length) ÷ 2304</p>
+<div class="galaxy"></div>
+<div class="flash" id="flash"></div>
 
-<table id="woodTable">
-<tr>
-  <th>Vannam (in)</th>
-  <th>Length (ft)</th>
-  <th>Class</th>
-  <th>Value</th>
-</tr>
-</table>
+<section class="hero" id="hero">
 
-<button onclick="addRow()">+ Add Row</button>
-<button onclick="printReport()">🖨 Print Report</button>
+<div class="card">
 
-<div class="summary">
-  <div>First Class Total (≥38): <span id="firstTotal">0.0</span></div>
-  <div>Second Class Total (≥28): <span id="secondTotal">0.0</span></div>
-  <div>Third Class Total (≥18): <span id="thirdTotal">0.0</span></div>
+<h1>Kavya ❤️</h1>
+<h2>Will You Be Mine?</h2>
+
+<div class="btn-container">
+<div id="chatBubble">Don't click me 😠</div>
+<button class="yes" id="yesBtn">Yes ❤️</button>
+<button class="no" id="noBtn">No 💔</button>
 </div>
+
 </div>
+</section>
+
+<section class="ring-stage" id="ringStage">
+<div class="ring-box" id="ringBox">
+<div class="lid"></div>
+<div class="ring">💍</div>
+</div>
+<h1 style="margin-top:30px;">Forever Starts Now</h1>
+</section>
+
+<section class="reveal" id="reveal">
+<h2>Out of 8 billion souls… you chose mine ❤️</h2>
+<br><br>
+<div class="photo-frame" id="photoFrame">
+<img src="pic.jpeg">
+</div>
+</section>
+
+<audio id="voice">
+<source src="voice.mp3">
+</audio>
+
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
 
 <script>
-// Custom rounding rule:
-// 5.64 → 5.6
-// 5.65 → 5.6
-// 5.66 → 5.7
-function roundOneDecimal(value) {
-  let scaled = value * 100;
-  let secondDecimal = Math.floor(scaled % 10);
 
-  if (secondDecimal >= 6) {
-    return Math.ceil(value * 10) / 10;
-  } else {
-    return Math.floor(value * 10) / 10;
-  }
+/* Music fade in */
+const music=document.getElementById("music");
+
+document.body.addEventListener("click",()=>{
+if(music){
+music.volume=0;
+music.play();
+let v=0;
+let fade=setInterval(()=>{
+if(v<0.4){ v+=0.02; music.volume=v; }
+else clearInterval(fade);
+},200);
+}
+},{once:true});
+
+/* Cursor hearts */
+document.addEventListener("mousemove",(e)=>{
+let h=document.createElement("div");
+h.className="cursor-heart";
+h.innerHTML="❤️";
+h.style.left=e.pageX+"px";
+h.style.top=e.pageY+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),900);
+});
+
+/* RANDOM SAFE DISTANCE ESCAPE */
+
+const no=document.getElementById("noBtn");
+const chat=document.getElementById("chatBubble");
+const container=document.querySelector(".btn-container");
+
+const angryMessages=[
+"Hey!! 😠",
+"Stop trying 😤",
+"You almost had me!",
+"No means no 😜",
+"Personal space please 😠",
+"Too slow 😂",
+"Nice try!",
+"You can't catch me 😏"
+];
+
+let msgIndex=0;
+const MIN_DISTANCE=140;
+
+function moveButton(){
+
+const rect=container.getBoundingClientRect();
+const btnRect=no.getBoundingClientRect();
+
+let newX,newY;
+let attempts=0;
+
+do{
+
+newX=Math.random()*(rect.width-btnRect.width-20)+10;
+newY=Math.random()*(rect.height-btnRect.height-20)+40;
+
+const dx=newX-(btnRect.left-rect.left);
+const dy=newY-(btnRect.top-rect.top);
+var distance=Math.sqrt(dx*dx+dy*dy);
+
+attempts++;
+
+}while(distance<MIN_DISTANCE && attempts<40);
+
+no.style.left=newX+"px";
+no.style.top=newY+"px";
+
+chat.style.left=newX+"px";
+chat.style.top=(newY-45)+"px";
+
+chat.innerText=angryMessages[msgIndex];
+msgIndex=(msgIndex+1)%angryMessages.length;
 }
 
-// Now adds 10 rows per click
-function addRow() {
-  const table = document.getElementById("woodTable");
-  for(let j = 0; j < 10; j++) {
-    const row = table.insertRow(-1);
-    row.innerHTML = `
-      <td><input type="number" oninput="calculate()"></td>
-      <td><input type="number" oninput="calculate()"></td>
-      <td>–</td>
-      <td>0.0</td>
-    `;
-  }
+/* Desktop */
+container.addEventListener("mousemove",(e)=>{
+const btn=no.getBoundingClientRect();
+const dist=Math.hypot(
+e.clientX-(btn.left+btn.width/2),
+e.clientY-(btn.top+btn.height/2)
+);
+if(dist<160){ moveButton(); }
+});
+
+/* Mobile */
+no.addEventListener("touchstart",(e)=>{
+e.preventDefault();
+moveButton();
+});
+
+/* YES CINEMA */
+
+document.getElementById("yesBtn").onclick=()=>{
+
+document.getElementById("voice").play();
+
+const flash=document.getElementById("flash");
+flash.style.opacity=.8;
+setTimeout(()=>flash.style.opacity=0,400);
+
+setTimeout(()=>{
+document.getElementById("hero").style.display="none";
+document.getElementById("ringStage").style.display="flex";
+},900);
+
+};
+
+/* Ring open */
+
+document.getElementById("ringBox").onclick=()=>{
+document.getElementById("ringBox").classList.add("open");
+
+setTimeout(()=>{
+document.getElementById("ringStage").style.display="none";
+document.getElementById("reveal").style.display="flex";
+orbitHearts();
+},1600);
+};
+
+/* Orbit hearts */
+
+function orbitHearts(){
+const frame=document.getElementById("photoFrame");
+for(let i=0;i<6;i++){
+let h=document.createElement("div");
+h.className="orbit";
+h.innerHTML="❤️";
+h.style.animationDuration=(5+i)+"s";
+frame.appendChild(h);
+}
 }
 
-function calculate() {
-  let first = 0, second = 0, third = 0;
-  const rows = document.getElementById("woodTable").rows;
-
-  for(let i=1;i<rows.length;i++){
-    let vannam = parseFloat(rows[i].cells[0].children[0].value) || 0;
-    let length = parseFloat(rows[i].cells[1].children[0].value) || 0;
-
-    let rawValue = (vannam * vannam * length) / 2304;
-    let value = roundOneDecimal(rawValue);
-
-    rows[i].cells[3].innerText = value.toFixed(1);
-
-    let woodClass = "-";
-    if(vannam >= 38){
-      first += value;
-      woodClass = "First";
-    } else if(vannam >= 28){
-      second += value;
-      woodClass = "Second";
-    } else if(vannam >= 18){
-      third += value;
-      woodClass = "Third";
-    }
-
-    rows[i].cells[2].innerText = woodClass;
-  }
-
-  document.getElementById("firstTotal").innerText = roundOneDecimal(first).toFixed(1);
-  document.getElementById("secondTotal").innerText = roundOneDecimal(second).toFixed(1);
-  document.getElementById("thirdTotal").innerText = roundOneDecimal(third).toFixed(1);
-}
-
-function printReport() {
-  const rows = document.getElementById("woodTable").rows;
-  let first = [], second = [], third = [];
-
-  for(let i=1;i<rows.length;i++){
-    let vannam = rows[i].cells[0].children[0].value;
-    let length = rows[i].cells[1].children[0].value;
-    let woodClass = rows[i].cells[2].innerText;
-    let value = rows[i].cells[3].innerText;
-
-    if(woodClass === "First") first.push([vannam,length,value]);
-    else if(woodClass === "Second") second.push([vannam,length,value]);
-    else if(woodClass === "Third") third.push([vannam,length,value]);
-  }
-
-  let report = `
-  <h2>Wood Mill Report</h2>
-
-  <h3>First Class</h3>${buildTable(first)}
-  <h4>Total: ${document.getElementById("firstTotal").innerText}</h4>
-
-  <h3>Second Class</h3>${buildTable(second)}
-  <h4>Total: ${document.getElementById("secondTotal").innerText}</h4>
-
-  <h3>Third Class</h3>${buildTable(third)}
-  <h4>Total: ${document.getElementById("thirdTotal").innerText}</h4>
-  `;
-
-  let win = window.open("", "", "width=900,height=650");
-  win.document.write(`<html><head><title>Report</title></head><body>${report}</body></html>`);
-  win.document.close();
-  win.print();
-}
-
-function buildTable(data) {
-  if(data.length === 0) return "<p>No data</p>";
-  let html = "<table border='1' cellspacing='0' cellpadding='5'><tr><th>Vannam</th><th>Length</th><th>Value</th></tr>";
-  data.forEach(row=>{
-    html += `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`;
-  });
-  html += "</table>";
-  return html;
-}
-
-// Initial 10 rows
-addRow();
 </script>
-
 </body>
 </html>
