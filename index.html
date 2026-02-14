@@ -12,18 +12,8 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:black;
-color:white;
-overflow:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:black;color:white;overflow:hidden}
 
 /* HERO */
 .hero{
@@ -42,17 +32,10 @@ text-align:center;
 width:100%;
 max-width:600px;
 }
-h1{
-font-family:'Great Vibes',cursive;
-font-size:60px;
-}
+h1{font-family:'Great Vibes',cursive;font-size:60px}
 
 /* Buttons */
-.btn-container{
-position:relative;
-height:220px;
-margin-top:25px;
-}
+.btn-container{position:relative;height:220px;margin-top:25px}
 button{
 padding:16px 36px;
 border:none;
@@ -60,10 +43,7 @@ border-radius:40px;
 font-size:18px;
 font-weight:600;
 }
-.yes{
-background:linear-gradient(45deg,#ff2e63,#ff6a88);
-color:white;
-}
+.yes{background:linear-gradient(45deg,#ff2e63,#ff6a88);color:white}
 .no{
 position:absolute;
 left:55%;
@@ -83,6 +63,44 @@ top:50px;
 left:55%;
 font-size:13px;
 }
+
+/* RING STAGE */
+.ring-stage{
+display:none;
+height:100vh;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+}
+.ring-box{
+width:160px;
+height:100px;
+background:#111;
+border-radius:12px;
+position:relative;
+cursor:pointer;
+}
+.lid{
+position:absolute;
+width:160px;
+height:50px;
+background:#222;
+top:0;
+border-radius:12px 12px 0 0;
+transform-origin:top;
+transition:.8s;
+}
+.ring{
+font-size:60px;
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+opacity:0;
+transition:1s;
+}
+.open .lid{transform:rotateX(140deg)}
+.open .ring{opacity:1;top:-40px}
 
 /* VIDEO */
 .video-screen{
@@ -106,7 +124,6 @@ align-items:center;
 justify-content:center;
 height:100vh;
 text-align:center;
-padding:20px;
 }
 .photo-frame{
 padding:18px;
@@ -132,11 +149,6 @@ from{transform:rotate(0deg) translateX(130px) rotate(0deg);}
 to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 }
 
-@media(max-width:600px){
-h1{font-size:44px;}
-button{font-size:16px;padding:14px 24px;}
-}
-
 </style>
 </head>
 <body>
@@ -153,6 +165,15 @@ button{font-size:16px;padding:14px 24px;}
 <button class="no" id="noBtn">No 💔</button>
 </div>
 </div>
+</section>
+
+<!-- RING -->
+<section class="ring-stage" id="ringStage">
+<div class="ring-box" id="ringBox">
+<div class="lid"></div>
+<div class="ring">💍</div>
+</div>
+<h2 style="margin-top:20px">Tap the ring 💖</h2>
 </section>
 
 <!-- VIDEO -->
@@ -173,55 +194,26 @@ button{font-size:16px;padding:14px 24px;}
 
 <script>
 
-/* SMOOTH RUNNING BUTTON */
+/* NO BUTTON RUNNING (unchanged) */
 
 const no=document.getElementById("noBtn");
 const chat=document.getElementById("chatBubble");
 const container=document.querySelector(".btn-container");
 
-const msgs=[
-"Hey! 😠",
-"Stop trying 😤",
-"Almost got me!",
-"No means no 😜",
-"Too slow 😂",
-"Nice try!"
-];
-let msgIndex=0;
-
 function moveButton(){
-
 const rect=container.getBoundingClientRect();
 const btn=no.getBoundingClientRect();
 
-let newX,newY;
-let safe=false;
-let tries=0;
+let x=Math.random()*(rect.width-btn.width-20)+10;
+let y=Math.random()*(rect.height-btn.height-20)+40;
 
-while(!safe && tries<25){
+no.style.left=x+"px";
+no.style.top=y+"px";
 
-newX=Math.random()*(rect.width-btn.width-20)+10;
-newY=Math.random()*(rect.height-btn.height-20)+40;
-
-const dx=newX-(btn.left-rect.left);
-const dy=newY-(btn.top-rect.top);
-const dist=Math.hypot(dx,dy);
-
-if(dist>140) safe=true;
-tries++;
+chat.style.left=x+"px";
+chat.style.top=(y-40)+"px";
 }
 
-no.style.left=newX+"px";
-no.style.top=newY+"px";
-
-chat.style.left=newX+"px";
-chat.style.top=(newY-40)+"px";
-
-chat.innerText=msgs[msgIndex];
-msgIndex=(msgIndex+1)%msgs.length;
-}
-
-/* Desktop hover */
 container.addEventListener("mousemove",(e)=>{
 const btn=no.getBoundingClientRect();
 const dist=Math.hypot(
@@ -231,37 +223,46 @@ e.clientY-(btn.top+btn.height/2)
 if(dist<150) moveButton();
 });
 
-/* Mobile touch */
 no.addEventListener("touchstart",(e)=>{
 e.preventDefault();
 moveButton();
 });
 
-/* VIDEO FLOW */
+/* YES → RING FIRST */
 
 const yes=document.getElementById("yesBtn");
+const hero=document.getElementById("hero");
+const ringStage=document.getElementById("ringStage");
+const ringBox=document.getElementById("ringBox");
 const videoScreen=document.getElementById("videoScreen");
 const video=document.getElementById("proposalVideo");
 
 yes.onclick=()=>{
-document.getElementById("hero").style.display="none";
+hero.style.display="none";
+ringStage.style.display="flex";
+};
+
+/* OPEN RING → VIDEO */
+
+ringBox.onclick=()=>{
+ringBox.classList.add("open");
+
+setTimeout(()=>{
+ringStage.style.display="none";
 videoScreen.style.display="block";
-
-/* Try autoplay */
 video.play().catch(()=>{});
+},1200);
+};
 
-/* Tap fallback */
-videoScreen.addEventListener("click",()=>video.play(),{once:true});
+/* VIDEO END → IMAGE */
 
-/* After video */
 video.onended=()=>{
 videoScreen.style.display="none";
 document.getElementById("reveal").style.display="flex";
 orbitHearts();
 };
-};
 
-/* HEARTS AROUND IMAGE */
+/* HEARTS */
 
 function orbitHearts(){
 const frame=document.getElementById("photoFrame");
