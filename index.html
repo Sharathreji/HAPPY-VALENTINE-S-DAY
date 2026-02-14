@@ -49,7 +49,8 @@ left:55%;
 top:100px;
 background:white;
 color:#ff2e63;
-transition:left .35s ease, top .35s ease;
+transition:left .25s cubic-bezier(.17,.67,.83,.67),
+           top .25s cubic-bezier(.17,.67,.83,.67);
 }
 
 /* Chat */
@@ -61,6 +62,8 @@ border-radius:20px;
 top:50px;
 left:55%;
 font-size:13px;
+transition:left .25s cubic-bezier(.17,.67,.83,.67),
+           top .25s cubic-bezier(.17,.67,.83,.67);
 }
 
 /* RING */
@@ -130,6 +133,7 @@ border-radius:25px;
 background:linear-gradient(45deg,#ff6a88,#ff99ac);
 box-shadow:0 0 80px hotpink;
 position:relative;
+overflow:hidden;
 }
 .photo-frame img{
 width:260px;
@@ -148,11 +152,25 @@ from{transform:rotate(0deg) translateX(130px) rotate(0deg);}
 to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 }
 
+/* Sparkle */
+.sparkle{
+position:absolute;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 10px white, 0 0 20px hotpink;
+animation:spark 1.5s linear forwards;
+}
+@keyframes spark{
+0%{transform:scale(0);opacity:1}
+100%{transform:scale(2);opacity:0}
+}
+
 </style>
 </head>
 <body>
 
-<!-- HERO -->
 <section class="hero" id="hero">
 <div class="card">
 <h1>Kavya ❤️</h1>
@@ -166,7 +184,6 @@ to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 </div>
 </section>
 
-<!-- RING -->
 <section class="ring-stage" id="ringStage">
 <div class="ring-box" id="ringBox">
 <div class="lid"></div>
@@ -175,14 +192,12 @@ to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 <h2 style="margin-top:20px">Tap the ring 💖</h2>
 </section>
 
-<!-- VIDEO WITH SOUND -->
 <div class="video-screen" id="videoScreen">
-<video id="proposalVideo" playsinline controls>
+<video id="proposalVideo" playsinline>
 <source src="video.mp4" type="video/mp4">
 </video>
 </div>
 
-<!-- IMAGE -->
 <section class="reveal" id="reveal">
 <h2>Out of 8 billion souls… you chose mine ❤️</h2>
 <br><br>
@@ -193,38 +208,75 @@ to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 
 <script>
 
-/* RUNNING BUTTON (unchanged) */
+/* RUNNING BUTTON */
 const no=document.getElementById("noBtn");
 const chat=document.getElementById("chatBubble");
 const container=document.querySelector(".btn-container");
 
+/* 20 SENTENCES LOOPING CORRECTLY */
+const funnyMessages=[
+"You really thought that would work? 😌",
+"Are you sure about that? 😏",
+"Rejection not accepted 🚫",
+"Destiny says YES 💖",
+"Try again sweetheart 😜",
+"This button runs faster than you 😂",
+"Love loading... please wait ⏳",
+"Error 404: No not found 😎",
+"Nice try 😆",
+"Even Google says Yes 💍",
+"You’re blushing already 😝",
+"Resistance is adorable 😌",
+"Stop pressing No 😤",
+"Plot twist incoming 👀",
+"You can’t escape love ❤️",
+"Are you nervous? 😏",
+"Love is compulsory 😜",
+"This is getting serious 😆",
+"Last warning 😎",
+"Okay fine… click YES now 😘"
+];
+
+let messageIndex = 0;
+
+function showNextMessage(){
+chat.innerHTML = funnyMessages[messageIndex];
+messageIndex = (messageIndex + 1) % funnyMessages.length;
+}
+
+/* SMOOTH MOVE */
 function moveButton(){
 const rect=container.getBoundingClientRect();
-const btn=no.getBoundingClientRect();
-let x=Math.random()*(rect.width-btn.width-20)+10;
-let y=Math.random()*(rect.height-btn.height-20)+40;
+const btnWidth=no.offsetWidth;
+const btnHeight=no.offsetHeight;
+
+let x=Math.random()*(rect.width-btnWidth-20)+10;
+let y=Math.random()*(rect.height-btnHeight-20)+40;
+
 no.style.left=x+"px";
 no.style.top=y+"px";
 chat.style.left=x+"px";
 chat.style.top=(y-40)+"px";
 }
 
+/* ONLY CLICK (NO DOUBLE EVENTS) */
+no.addEventListener("click",(e)=>{
+e.preventDefault();
+moveButton();
+showNextMessage();
+});
+
+/* Mouse proximity run */
 container.addEventListener("mousemove",(e)=>{
 const btn=no.getBoundingClientRect();
 const dist=Math.hypot(
 e.clientX-(btn.left+btn.width/2),
 e.clientY-(btn.top+btn.height/2)
 );
-if(dist<150) moveButton();
-});
-
-no.addEventListener("touchstart",(e)=>{
-e.preventDefault();
-moveButton();
+if(dist<120) moveButton();
 });
 
 /* FLOW */
-
 const yes=document.getElementById("yesBtn");
 const hero=document.getElementById("hero");
 const ringStage=document.getElementById("ringStage");
@@ -244,9 +296,11 @@ setTimeout(()=>{
 ringStage.style.display="none";
 videoScreen.style.display="block";
 
-/* ensure sound works */
 video.muted=false;
-video.play();
+video.volume=1;
+video.currentTime=0;
+
+video.play().catch(()=>{});
 
 },1200);
 };
@@ -255,18 +309,31 @@ video.onended=()=>{
 videoScreen.style.display="none";
 document.getElementById("reveal").style.display="flex";
 orbitHearts();
+sparkleEffect();
 };
 
-/* TWO HEARTS ONLY */
+/* ORBIT HEARTS */
 function orbitHearts(){
 const frame=document.getElementById("photoFrame");
-
 for(let i=0;i<2;i++){
 let h=document.createElement("div");
 h.className="orbit";
 h.innerHTML="❤️";
 h.style.animationDuration=(6+i)+"s";
 frame.appendChild(h);
+}
+}
+
+/* SPARKLE EFFECT */
+function sparkleEffect(){
+const frame=document.getElementById("photoFrame");
+for(let i=0;i<40;i++){
+let s=document.createElement("div");
+s.className="sparkle";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+frame.appendChild(s);
+setTimeout(()=>{s.remove();},1500);
 }
 }
 
