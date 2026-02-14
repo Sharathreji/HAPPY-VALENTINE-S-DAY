@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
@@ -53,7 +52,7 @@ color:#ff2e63;
 transition:left .35s ease, top .35s ease;
 }
 
-/* Chat bubble */
+/* Chat */
 #chatBubble{
 position:absolute;
 background:rgba(255,255,255,.12);
@@ -64,7 +63,7 @@ left:55%;
 font-size:13px;
 }
 
-/* RING STAGE */
+/* RING */
 .ring-stage{
 display:none;
 height:100vh;
@@ -116,7 +115,7 @@ height:100%;
 object-fit:cover;
 }
 
-/* IMAGE REVEAL */
+/* IMAGE */
 .reveal{
 display:none;
 flex-direction:column;
@@ -141,8 +140,8 @@ border-radius:18px;
 /* Orbit hearts */
 .orbit{
 position:absolute;
-font-size:18px;
-animation:orbit 6s linear infinite;
+font-size:22px;
+animation:orbit 7s linear infinite;
 }
 @keyframes orbit{
 from{transform:rotate(0deg) translateX(130px) rotate(0deg);}
@@ -176,9 +175,9 @@ to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 <h2 style="margin-top:20px">Tap the ring 💖</h2>
 </section>
 
-<!-- VIDEO -->
+<!-- VIDEO WITH SOUND -->
 <div class="video-screen" id="videoScreen">
-<video id="proposalVideo" muted playsinline>
+<video id="proposalVideo" playsinline controls>
 <source src="video.mp4" type="video/mp4">
 </video>
 </div>
@@ -194,8 +193,7 @@ to{transform:rotate(360deg) translateX(130px) rotate(-360deg);}
 
 <script>
 
-/* NO BUTTON RUNNING (unchanged) */
-
+/* RUNNING BUTTON (unchanged) */
 const no=document.getElementById("noBtn");
 const chat=document.getElementById("chatBubble");
 const container=document.querySelector(".btn-container");
@@ -203,13 +201,10 @@ const container=document.querySelector(".btn-container");
 function moveButton(){
 const rect=container.getBoundingClientRect();
 const btn=no.getBoundingClientRect();
-
 let x=Math.random()*(rect.width-btn.width-20)+10;
 let y=Math.random()*(rect.height-btn.height-20)+40;
-
 no.style.left=x+"px";
 no.style.top=y+"px";
-
 chat.style.left=x+"px";
 chat.style.top=(y-40)+"px";
 }
@@ -228,7 +223,7 @@ e.preventDefault();
 moveButton();
 });
 
-/* YES → RING FIRST */
+/* FLOW */
 
 const yes=document.getElementById("yesBtn");
 const hero=document.getElementById("hero");
@@ -242,19 +237,19 @@ hero.style.display="none";
 ringStage.style.display="flex";
 };
 
-/* OPEN RING → VIDEO */
-
 ringBox.onclick=()=>{
 ringBox.classList.add("open");
 
 setTimeout(()=>{
 ringStage.style.display="none";
 videoScreen.style.display="block";
-video.play().catch(()=>{});
+
+/* ensure sound works */
+video.muted=false;
+video.play();
+
 },1200);
 };
-
-/* VIDEO END → IMAGE */
 
 video.onended=()=>{
 videoScreen.style.display="none";
@@ -262,15 +257,15 @@ document.getElementById("reveal").style.display="flex";
 orbitHearts();
 };
 
-/* HEARTS */
-
+/* TWO HEARTS ONLY */
 function orbitHearts(){
 const frame=document.getElementById("photoFrame");
-for(let i=0;i<6;i++){
+
+for(let i=0;i<2;i++){
 let h=document.createElement("div");
 h.className="orbit";
 h.innerHTML="❤️";
-h.style.animationDuration=(5+i)+"s";
+h.style.animationDuration=(6+i)+"s";
 frame.appendChild(h);
 }
 }
